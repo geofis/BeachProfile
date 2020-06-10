@@ -1,5 +1,5 @@
 ---
-title: "RCoastSat"
+title: "BeachProfile"
 output: github_document
 editor_options: 
   chunk_output_type: console
@@ -23,6 +23,7 @@ library(tidyverse)
 library(purrr)
 library(sf)
 library(RColorBrewer)
+library(raster)
 ```
 
 
@@ -36,48 +37,27 @@ map(funs, source)
 ## Import/plot transects and shorelines
 
 ```{r}
-shl <- rshl('data/najayo-l8-shorelines.geojson') %>% mutate(date=as.Date(date)) #Shorelines
-refl <- shl %>% filter(date==min(date)) #Reference shoreline
-rawtrans <- rtrans('data/transects.geojson') #Raw transects
-trans <- transclas(tr = rawtrans, rl = refl) #Transects classified by seaward/landward sections
-cols <- colorRampPalette(brewer.pal(9,'Set1'))(nrow(shl))
+# transprof <- rtrans('data/transect-profiles.geojson')
+transprof <- rtrans('data/transect-profiles-short.geojson')
+dsm <- raster('data/dsm.tif')
+plot(dsm)
+plot(as_Spatial(transprof), add=T)
+
+#ggplot of transects
+cols <- colorRampPalette(brewer.pal(9,'Set1'))(nrow(transprof))
 ggplot() +
-  geom_sf(data = shl %>% mutate(date = factor(date)), color = cols) +
-  geom_sf(
-    data = refl %>% mutate(linetype = paste0('Ref. (', date, ')')),
-    aes(color=linetype), lwd = 1, show.legend = 'line') +
-  geom_sf(
-    data = trans %>% mutate(sealand=paste0('Transect: ', sealand)),
-    aes(color = sealand), show.legend = 'line', lwd = 1) +
+  geom_sf(data = transprof, color = cols) +
   scale_color_manual(values = c('black', 'orange', 'blue')) +
   geom_sf_text(
-    data = trans %>% filter(sealand=='landward') %>%
+    data = transprof %>%
       st_centroid, aes(label = transect), size = 4) +
   theme_minimal() +
   theme(legend.title = element_blank())
 ```
 
-## Extract points at interserctions and calculate distances
+## Profiles
 
 ```{r}
-distl <- pointdist(sh = shl, re = refl, tr = trans, rtr = rawtrans)
-```
-
-## Time-series of shoreline change for each transect 
-
->Increase the `fig.height` parameter in the chunk header to make room for facets with more than 5 shoreline change transects. For example, use `fig.height=20` when plotting 10 shoreline change transects.
-
-```{r, fig.height=5}
-interdist <- map(distl, interpolate) %>% plyr::ldply()
-distances <- plyr::ldply(distl)
-distances %>% 
-  ggplot() + theme_bw() + aes(x = date, y = distance_sign) +
-  geom_ribbon(data = interdist, aes(ymax = pmax(distance_sign, 0), ymin = 0), fill = "sienna3") +
-  geom_ribbon(data = interdist, aes(ymin = pmin(distance_sign, 0), ymax = 0), fill = "skyblue3") +
-  geom_hline(yintercept = 0, color = 'grey') +
-  geom_line(colour='black', lwd = 0.5) +
-  scale_x_date(labels = scales::date_format("%Y-%m"), date_breaks = '3 months') +
-  scale_y_continuous(limits = c(-30, 30)) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5), text = element_text(size = 14)) +
-  facet_wrap(~transect, ncol = 1)
+prof <- profiles(transects = transprof, height = dsm, facetRows = 3, movingAvgK = 10)
+prof
 ```
