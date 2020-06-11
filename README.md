@@ -62,7 +62,7 @@ Profiles
 --------
 
 ``` r
-prof <- profiles(transects = transprof, height = dsm, facetRows = 3, movingAvgK = 10)
+prof <- profiles(transects = transprof, height = dsm, facetRows = 2, movingAvgK = 10)
 ## rgeos version: 0.5-2, (SVN revision 621)
 ##  GEOS runtime version: 3.6.2-CAPI-1.10.2 
 ##  Linking to sp version: 1.3-1 
@@ -82,21 +82,21 @@ prof <- profiles(transects = transprof, height = dsm, facetRows = 3, movingAvgK 
 ##     as.Date, as.Date.numeric
 prof
 ## [[1]]
-## # A tibble: 506 x 4
+## # A tibble: 224 x 4
 ## # Groups:   transect [7]
 ##    transect   dist     h    hma
 ##    <fct>     <dbl> <dbl>  <dbl>
-##  1 1        0      0.983 NA    
-##  2 1        0.0172 0.983 NA    
-##  3 1        0.0345 1     NA    
-##  4 1        0.0517 0.969 NA    
-##  5 1        0.0690 0.969  0.934
-##  6 1        0.0862 0.910  0.922
-##  7 1        0.103  0.933  0.910
-##  8 1        0.121  0.872  0.889
-##  9 1        0.138  0.872  0.871
-## 10 1        0.155  0.845  0.853
-## # … with 496 more rows
+##  1 1        0      1     NA    
+##  2 1        0.0345 0.969 NA    
+##  3 1        0.0690 0.933 NA    
+##  4 1        0.103  0.933 NA    
+##  5 1        0.138  0.874  0.867
+##  6 1        0.172  0.866  0.837
+##  7 1        0.207  0.864  0.807
+##  8 1        0.241  0.786  0.777
+##  9 1        0.276  0.767  0.739
+## 10 1        0.310  0.677  0.703
+## # … with 214 more rows
 ## 
 ## [[2]]
 ## Warning: Removed 9 rows containing missing values (geom_path).

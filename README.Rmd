@@ -58,6 +58,6 @@ ggplot() +
 ## Profiles
 
 ```{r}
-prof <- profiles(transects = transprof, height = dsm, facetRows = 3, movingAvgK = 10)
+prof <- profiles(transects = transprof, height = dsm, facetRows = 2, movingAvgK = 10)
 prof
 ```
