@@ -39,7 +39,11 @@ map(funs, source)
 ```{r}
 # transprof <- rtrans('data/transect-profiles.geojson')
 transprof <- rtrans('data/transect-profiles-short.geojson')
-dsm <- raster('data/dsm.tif')
+rawDsm <- raster('data/raw-dsm.tif')
+dsm <- thresholdRaise(
+  rasterDsm = rawDsm, threshold = -28.9,
+  outRasterPath = 'out/cleaned-raised-dsm.tif',
+  overwrite=T)
 plot(dsm)
 plot(as_Spatial(transprof), add=T)
 
@@ -55,9 +59,65 @@ ggplot() +
   theme(legend.title = element_blank())
 ```
 
-## Profiles
+## Profile data
 
 ```{r}
-prof <- profiles(transects = transprof, height = dsm, facetRows = 2, movingAvgK = 10)
-prof
+profData <- profiles(transects = transprof, height = dsm, pointsPerPixel= 2, movingAvgK = 5)
+profData
 ```
+
+## Profile plots
+
+### Unit dimensions
+
+```{r}
+#Not comparable scales, neither between x and y nor across panels
+dmngrid1 <- profData$dimension %>% drop_units %>% na.omit %>% ggplot() +
+  aes(x = dist, y = hma) +
+  geom_line(col = 'red', lwd = 1) +
+  scale_x_continuous(breaks = pretty_breaks()) +
+  scale_y_continuous(breaks = pretty_breaks()) +
+  ylab('Height, moving average (m)') + xlab('Distance, landward origin (m)') +
+  geom_text(
+    data = profData$slope %>% drop_units,
+    aes(x = xInPlot, y = yInPlot, label = paste0('m=', round(slopeDeg,2), '°')),
+    size = 3,
+    hjust = 0,
+    parse = F
+  ) +
+  facet_wrap(~transect, nrow = 2, scales = 'free') +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmngrid1
+
+#Not comparable scales between x and y
+dmngrid1 + facet_grid(~transect) 
+
+#Equal xy scales, no vertical exaggeration
+dmngrid1 + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
+
+#Equal scales, vertical exaggeration by 2x
+dmngrid1 + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
+```
+
+### Dimensionless, profile concavity indices
+
+```{r}
+dmnlsgrid1 <- profData$dimensionless %>% na.omit %>% ggplot() +
+  aes(x = dist, y = hma) +
+  geom_line(col = 'red', lwd = 1) +
+  scale_x_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  scale_y_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  geom_text(
+    data = profData$concavityindex, aes(x = 0.1, y = 0.1, label = paste0('C[a]==', round(ci,2))),
+    size = 3,
+    hjust = 0,
+    parse = T
+  ) +
+  coord_equal() +
+  facet_wrap(~transect, nrow = 2) +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmnlsgrid1
+```
+
