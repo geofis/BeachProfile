@@ -62,7 +62,7 @@ ggplot() +
 ## Profile data
 
 ```{r}
-profData <- profiles(transects = transprof, height = dsm, pointsPerPixel= 2, movingAvgK = 5)
+profData <- profiles(transects = transprof, height = dsm, pointsPerPixel= 1, movingAvgK = 5)
 profData
 ```
 
@@ -72,15 +72,16 @@ profData
 
 ```{r}
 #Not comparable scales, neither between x and y nor across panels
-dmngrid1 <- profData$dimension %>% drop_units %>% na.omit %>% ggplot() +
-  aes(x = dist, y = hma) +
-  geom_line(col = 'red', lwd = 1) +
+dmngrid <- profData$dimension %>% drop_units %>% ggplot() +
+  aes(x = distlm, y = hma) +
+  geom_line(col = 'red', lwd = 1, na.rm = T) +
   scale_x_continuous(breaks = pretty_breaks()) +
   scale_y_continuous(breaks = pretty_breaks()) +
+  expand_limits(y = -0.05) +
   ylab('Height, moving average (m)') + xlab('Distance, landward origin (m)') +
   geom_text(
     data = profData$slope %>% drop_units,
-    aes(x = xInPlot, y = yInPlot, label = paste0('m=', round(slopeDeg,2), '°')),
+    aes(x = 0, y = 0, label = paste0('m=', round(slopeDeg,2), '°')),
     size = 3,
     hjust = 0,
     parse = F
@@ -88,23 +89,60 @@ dmngrid1 <- profData$dimension %>% drop_units %>% na.omit %>% ggplot() +
   facet_wrap(~transect, nrow = 2, scales = 'free') +
   theme_bw() + 
   theme(text = element_text(size = 12))
-dmngrid1
+dmngrid
 
 #Not comparable scales between x and y
-dmngrid1 + facet_grid(~transect) 
+dmngrid +
+  stat_smooth(
+    aes(x = distlm, y = hma), geom = 'line', color = 'black',
+    alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+  facet_grid(~transect) 
 
 #Equal xy scales, no vertical exaggeration
-dmngrid1 + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
+dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
 
 #Equal scales, vertical exaggeration by 2x
-dmngrid1 + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
+dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
+
+#Raw distance
+dmngridrawd <- profData$dimension %>% drop_units %>% ggplot() +
+  aes(x = dist, y = hma) +
+  geom_line(col = 'red', lwd = 1, na.rm = T) +
+  scale_x_continuous(breaks = pretty_breaks()) +
+  scale_y_continuous(breaks = pretty_breaks()) +
+  expand_limits(y = -0.05) +
+  ylab('Height, moving average (m)') + xlab('Raw distance, landward origin (m)') +
+  geom_text(
+    data = profData$slope %>% drop_units,
+    aes(x = 0, y = 0, label = paste0('m=', round(sloperawdDeg,2), '°')),
+    size = 3,
+    hjust = 0,
+    parse = F
+  ) +
+  facet_wrap(~transect, nrow = 2, scales = 'free') +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmngridrawd
+
+#Not comparable scales between x and y
+dmngridrawd +
+  stat_smooth(
+    aes(x = dist, y = hma), geom = 'line', color = 'black',
+    alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+  facet_grid(~transect) 
+
+#Equal xy scales, no vertical exaggeration
+dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
+
+#Equal scales, vertical exaggeration by 2x
+dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
 ```
 
 ### Dimensionless, profile concavity indices
 
 ```{r}
 dmnlsgrid1 <- profData$dimensionless %>% na.omit %>% ggplot() +
-  aes(x = dist, y = hma) +
+  aes(x = distlm, y = hma) +
   geom_line(col = 'red', lwd = 1) +
   scale_x_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
   scale_y_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
@@ -119,5 +157,22 @@ dmnlsgrid1 <- profData$dimensionless %>% na.omit %>% ggplot() +
   theme_bw() + 
   theme(text = element_text(size = 12))
 dmnlsgrid1
+
+dmnlsgridrawd1 <- profData$dimensionlessrawdistance %>% na.omit %>% ggplot() +
+  aes(x = dist, y = hma) +
+  geom_line(col = 'red', lwd = 1) +
+  scale_x_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  scale_y_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  geom_text(
+    data = profData$concavityindexrawdistance, aes(x = 0.1, y = 0.1, label = paste0('C[a]==', round(ci,2))),
+    size = 3,
+    hjust = 0,
+    parse = T
+  ) +
+  coord_equal() +
+  facet_wrap(~transect, nrow = 2) +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmnlsgridrawd1
 ```
 
