@@ -97,13 +97,17 @@ dmngrid +
     aes(x = distlm, y = hma), geom = 'line', color = 'black',
     alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
   facet_grid(~transect) 
+```
 
+```{r, fig.height=7}
 #Equal xy scales, no vertical exaggeration
 dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
 
 #Equal scales, vertical exaggeration by 2x
 dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
+```
 
+```{r}
 #Raw distance
 dmngridrawd <- profData$dimension %>% drop_units %>% ggplot() +
   aes(x = dist, y = hma) +
@@ -130,7 +134,9 @@ dmngridrawd +
     aes(x = dist, y = hma), geom = 'line', color = 'black',
     alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
   facet_grid(~transect) 
+```
 
+```{r, fig.height=7}
 #Equal xy scales, no vertical exaggeration
 dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
 
