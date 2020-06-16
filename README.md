@@ -4,26 +4,25 @@ BeachProfile
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 BeachProfile is a set of R tools that enable users to extract beach
-profiles from selected transects and a digital surface model. The tools
-generate elevation profile graphs showing the slope, a table of
-associated data, as well as profile concavity calculations. Hopefully,
-these tools, along with those of the [RCoastSat
-repo](https://github.com/geofis/RCoastSat) for analysis of time-series
-of shoreline extracted with [CoastSat](https://github.com/kvos/CoastSat)
-(an open-source software toolkit written in Python by @kvos), will be
-part of an R package.
+profiles from a digital surface model. The tools generate elevation
+profile graphs showing the slope, a table of associated data, as well as
+profile concavity calculations. Hopefully, these tools, along with those
+of the [RCoastSat repo](https://github.com/geofis/RCoastSat) for
+analysis of time-series of shoreline extracted with
+[CoastSat](https://github.com/kvos/CoastSat) (an open-source software
+toolkit written in Python by @kvos), will be part of an R package.
 
-Here I show how to generate topographic profiles of Najayo Beach,
+Here I show how to generate seven topographic profiles of Najayo Beach,
 located in the south-central coast of the Dominican Republic. The input
 data include a 10-cm resolution digital surface model (DSM) generated
-from an aerial survey and processed with OpenDroneMap, as well as a set
-of transects previously digitized in QGIS (see )
+from an aerial survey processed with OpenDroneMap and GRASS GIS, as well
+as a set of transects previously digitized in QGIS (see )
 
 ![Orthophoto and transects as shown in QGIS](img/transects-qgis.jpg)
 
 This repo, the field work and the data collected, are part of assignment
-projects for the Geomorphology course (Geography Degree), Universidad
-Autónoma de Santo Domingo. More details in this
+projects for the Geomorphology course (Geography Degree), Autonomous
+University of Santo Domingo. More details in this
 [video](https://www.youtube.com/watch?v=k6j5pVxvfN0) (in Spanish).
 
 ## Packages
