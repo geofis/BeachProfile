@@ -175,58 +175,9 @@ profData
 Profile plots
 -------------
 
-### Unit dimensions
+### Dimensionsional profiles
 
-``` r
-#Not comparable scales, neither between x and y nor across panels
-dmngrid <- profData$dimension %>% drop_units %>% ggplot() +
-  aes(x = distlm, y = hma) +
-  geom_line(col = 'red', lwd = 1, na.rm = T) +
-  scale_x_continuous(breaks = pretty_breaks()) +
-  scale_y_continuous(breaks = pretty_breaks()) +
-  expand_limits(y = -0.05) +
-  ylab('Height, moving average (m)') + xlab('Distance, landward origin (m)') +
-  geom_text(
-    data = profData$slope %>% drop_units,
-    aes(x = 0, y = 0, label = paste0('m=', round(slopeDeg,2), '°')),
-    size = 3,
-    hjust = 0,
-    parse = F
-  ) +
-  facet_wrap(~transect, nrow = 2, scales = 'free') +
-  theme_bw() + 
-  theme(text = element_text(size = 12))
-dmngrid
-```
-
-<img src="img/unnamed-chunk-5-1.png" width="100%" />
-
-``` r
-
-#Not comparable scales between x and y
-dmngrid +
-  stat_smooth(
-    aes(x = distlm, y = hma), geom = 'line', color = 'black',
-    alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
-  facet_grid(~transect) 
-```
-
-<img src="img/unnamed-chunk-5-2.png" width="100%" />
-
-``` r
-#Equal xy scales, no vertical exaggeration
-dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
-```
-
-<img src="img/unnamed-chunk-6-1.png" width="100%" />
-
-``` r
-
-#Equal scales, vertical exaggeration by 2x
-dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
-```
-
-<img src="img/unnamed-chunk-6-2.png" width="100%" />
+#### The profile stretches exactly up to the actual digitized extension
 
 ``` r
 #Raw distance
@@ -250,7 +201,7 @@ dmngridrawd <- profData$dimension %>% drop_units %>% ggplot() +
 dmngridrawd
 ```
 
-<img src="img/unnamed-chunk-7-1.png" width="100%" />
+<img src="img/unnamed-chunk-5-1.png" width="100%" />
 
 ``` r
 
@@ -262,11 +213,64 @@ dmngridrawd +
   facet_grid(~transect) 
 ```
 
-<img src="img/unnamed-chunk-7-2.png" width="100%" />
+<img src="img/unnamed-chunk-5-2.png" width="100%" />
 
 ``` r
 #Equal xy scales, no vertical exaggeration
 dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
+```
+
+<img src="img/unnamed-chunk-6-1.png" width="100%" />
+
+``` r
+
+#Equal scales, vertical exaggeration by 2x
+dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
+```
+
+<img src="img/unnamed-chunk-6-2.png" width="100%" />
+
+#### Extending the profile to a conventionally chosen zero using linear regression
+
+``` r
+#Not comparable scales, neither between x and y nor across panels
+dmngrid <- profData$dimension %>% drop_units %>% ggplot() +
+  aes(x = distlm, y = hma) +
+  geom_line(col = 'red', lwd = 1, na.rm = T) +
+  scale_x_continuous(breaks = pretty_breaks()) +
+  scale_y_continuous(breaks = pretty_breaks()) +
+  expand_limits(y = -0.05) +
+  ylab('Height, moving average (m)') + xlab('Distance, landward origin (m)') +
+  geom_text(
+    data = profData$slope %>% drop_units,
+    aes(x = 0, y = 0, label = paste0('m=', round(slopeDeg,2), '°')),
+    size = 3,
+    hjust = 0,
+    parse = F
+  ) +
+  facet_wrap(~transect, nrow = 2, scales = 'free') +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmngrid
+```
+
+<img src="img/unnamed-chunk-7-1.png" width="100%" />
+
+``` r
+
+#Not comparable scales between x and y
+dmngrid +
+  stat_smooth(
+    aes(x = distlm, y = hma), geom = 'line', color = 'black',
+    alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+  facet_grid(~transect) 
+```
+
+<img src="img/unnamed-chunk-7-2.png" width="100%" />
+
+``` r
+#Equal xy scales, no vertical exaggeration
+dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
 ```
 
 <img src="img/unnamed-chunk-8-1.png" width="100%" />
@@ -274,7 +278,7 @@ dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informativ
 ``` r
 
 #Equal scales, vertical exaggeration by 2x
-dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
+dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
 ```
 
 <img src="img/unnamed-chunk-8-2.png" width="100%" />

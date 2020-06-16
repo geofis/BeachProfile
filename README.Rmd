@@ -68,7 +68,48 @@ profData
 
 ## Profile plots
 
-### Unit dimensions
+### Dimensionsional profiles
+
+#### The profile stretches exactly up to the actual digitized extension
+
+```{r}
+#Raw distance
+dmngridrawd <- profData$dimension %>% drop_units %>% ggplot() +
+  aes(x = dist, y = hma) +
+  geom_line(col = 'red', lwd = 1, na.rm = T) +
+  scale_x_continuous(breaks = pretty_breaks()) +
+  scale_y_continuous(breaks = pretty_breaks()) +
+  expand_limits(y = -0.05) +
+  ylab('Height, moving average (m)') + xlab('Raw distance, landward origin (m)') +
+  geom_text(
+    data = profData$slope %>% drop_units,
+    aes(x = 0, y = 0, label = paste0('m=', round(sloperawdDeg,2), '°')),
+    size = 3,
+    hjust = 0,
+    parse = F
+  ) +
+  facet_wrap(~transect, nrow = 2, scales = 'free') +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmngridrawd
+
+#Not comparable scales between x and y
+dmngridrawd +
+  stat_smooth(
+    aes(x = dist, y = hma), geom = 'line', color = 'black',
+    alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+  facet_grid(~transect) 
+```
+
+```{r, fig.height=7}
+#Equal xy scales, no vertical exaggeration
+dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
+
+#Equal scales, vertical exaggeration by 2x
+dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
+```
+
+#### Extending the profile to a conventionally chosen zero using linear regression
 
 ```{r}
 #Not comparable scales, neither between x and y nor across panels
@@ -107,42 +148,6 @@ dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative bu
 dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
 ```
 
-```{r}
-#Raw distance
-dmngridrawd <- profData$dimension %>% drop_units %>% ggplot() +
-  aes(x = dist, y = hma) +
-  geom_line(col = 'red', lwd = 1, na.rm = T) +
-  scale_x_continuous(breaks = pretty_breaks()) +
-  scale_y_continuous(breaks = pretty_breaks()) +
-  expand_limits(y = -0.05) +
-  ylab('Height, moving average (m)') + xlab('Raw distance, landward origin (m)') +
-  geom_text(
-    data = profData$slope %>% drop_units,
-    aes(x = 0, y = 0, label = paste0('m=', round(sloperawdDeg,2), '°')),
-    size = 3,
-    hjust = 0,
-    parse = F
-  ) +
-  facet_wrap(~transect, nrow = 2, scales = 'free') +
-  theme_bw() + 
-  theme(text = element_text(size = 12))
-dmngridrawd
-
-#Not comparable scales between x and y
-dmngridrawd +
-  stat_smooth(
-    aes(x = dist, y = hma), geom = 'line', color = 'black',
-    alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
-  facet_grid(~transect) 
-```
-
-```{r, fig.height=7}
-#Equal xy scales, no vertical exaggeration
-dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informative but panels are comparable
-
-#Equal scales, vertical exaggeration by 2x
-dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
-```
 
 ### Dimensionless, profile concavity indices
 
