@@ -6,12 +6,12 @@ BeachProfile
 BeachProfile is a set of R tools that enable users to extract beach
 profiles from selected transects and a digital surface model. The tools
 generate elevation profile graphs showing the slope, a table of
-associated data, as well as profile concavity calculations. Eventually
+associated data, as well as profile concavity calculations. Hopefully,
 these tools, along with those of the [RCoastSat
 repo](https://github.com/geofis/RCoastSat) for analysis of time-series
 of shoreline extracted with [CoastSat](https://github.com/kvos/CoastSat)
-(an open-source software toolkit written in Python by @kvos), will end
-up in an  package.
+(an open-source software toolkit written in Python by @kvos), will be
+part of an R package.
 
 Here I show how to generate topographic profiles of Najayo Beach,
 located in the south-central coast of the Dominican Republic. The input
