@@ -2,8 +2,31 @@ BeachProfile
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-Packages
---------
+
+BeachProfile is a set of R tools that enable users to extract beach
+profiles from selected transects and a digital surface model. The tools
+generate elevation profile graphs showing the slope, a table of
+associated data, as well as profile concavity calculations. Eventually
+these tools, along with those of the [RCoastSat
+repo](https://github.com/geofis/RCoastSat) for analysis of time-series
+of shoreline extracted with [CoastSat](https://github.com/kvos/CoastSat)
+(an open-source software toolkit written in Python by @kvos), will end
+up in an  package.
+
+Here I show how to generate topographic profiles of Najayo Beach,
+located in the south-central coast of the Dominican Republic. The input
+data include a 10-cm resolution digital surface model (DSM) generated
+from an aerial survey and processed with OpenDroneMap, as well as a set
+of transects previously digitized in QGIS (see )
+
+![Orthophoto and transects as shown in QGIS](img/transects-qgis.jpg)
+
+This repo, the field work and the data collected, are part of assignment
+projects for the Geomorphology course (Geography Degree), Universidad
+Autónoma de Santo Domingo. More details in this
+[video](https://www.youtube.com/watch?v=k6j5pVxvfN0) (in Spanish).
+
+## Packages
 
 ``` r
 library(tidyverse)
@@ -13,31 +36,27 @@ library(RColorBrewer)
 library(raster)
 ```
 
-Read the functions
-------------------
+## Read the functions
 
 ``` r
 funs <- list.files('R', pattern = '*.R', full.names = T)
 map(funs, source)
 ```
 
-Import/plot transects and shorelines
-------------------------------------
+## Import/plot transects and shorelines
 
 ``` r
 # transprof <- rtrans('data/transect-profiles.geojson')
 transprof <- rtrans('data/transect-profiles-short.geojson')
-## Reading layer `tst' from data source `/home/jose/Documentos/git/BeachProfile/data/transect-profiles-short.geojson' using driver `GeoJSON'
+## Reading layer `tst' from data source `/home/jr/Documentos/git/BeachProfile/data/transect-profiles-short.geojson' using driver `GeoJSON'
 ## Simple feature collection with 7 features and 1 field
 ## geometry type:  MULTILINESTRING
 ## dimension:      XY
 ## bbox:           xmin: 382561.7 ymin: 2023228 xmax: 382627.3 ymax: 2023348
-## CRS:            32619
+## epsg (SRID):    32619
+## proj4string:    +proj=utm +zone=19 +datum=WGS84 +units=m +no_defs
 rawDsm <- raster('data/raw-dsm.tif')
-dsm <- thresholdRaise(
-  rasterDsm = rawDsm, threshold = -28.9,
-  outRasterPath = 'out/cleaned-raised-dsm.tif',
-  overwrite=T)
+dsm <- thresholdRaise(rasterDsm = rawDsm, threshold = -28.9)
 plot(dsm)
 plot(as_Spatial(transprof), add=T)
 ```
@@ -62,12 +81,11 @@ ggplot() +
 
 <img src="img/unnamed-chunk-3-2.png" width="100%" />
 
-Profile data
-------------
+## Profile data
 
 ``` r
 profData <- profiles(transects = transprof, height = dsm, pointsPerPixel= 1, movingAvgK = 5)
-## rgeos version: 0.5-2, (SVN revision 621)
+## rgeos version: 0.5-1, (SVN revision 614)
 ##  GEOS runtime version: 3.6.2-CAPI-1.10.2 
 ##  Linking to sp version: 1.3-1 
 ##  Polygon checking: TRUE
@@ -172,12 +190,11 @@ profData
 ## # … with 2 more variables: sloperawdRad [rad], sloperawdDeg [°]
 ```
 
-Profile plots
--------------
+## Profile plots
 
 ### Dimensionsional profiles
 
-#### The profile stretches exactly up to the actual digitized extension
+#### Profiles match their actual digitized extension
 
 ``` r
 #Raw distance
@@ -230,7 +247,7 @@ dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
 
 <img src="img/unnamed-chunk-6-2.png" width="100%" />
 
-#### Extending the profile to a conventionally chosen zero using linear regression
+#### Profiles extended to a conventionally chosen zero using linear regression
 
 ``` r
 #Not comparable scales, neither between x and y nor across panels
@@ -285,6 +302,31 @@ dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
 
 ### Dimensionless, profile concavity indices
 
+#### Profiles match their actual digitized extension
+
+``` r
+dmnlsgridrawd1 <- profData$dimensionlessrawdistance %>% na.omit %>% ggplot() +
+  aes(x = dist, y = hma) +
+  geom_line(col = 'red', lwd = 1) +
+  scale_x_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  scale_y_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  geom_text(
+    data = profData$concavityindexrawdistance, aes(x = 0.1, y = 0.1, label = paste0('C[a]==', round(ci,2))),
+    size = 3,
+    hjust = 0,
+    parse = T
+  ) +
+  coord_equal() +
+  facet_wrap(~transect, nrow = 2) +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmnlsgridrawd1
+```
+
+<img src="img/unnamed-chunk-9-1.png" width="100%" />
+
+#### Profiles extended to a conventionally chosen zero using linear regression
+
 ``` r
 dmnlsgrid1 <- profData$dimensionless %>% na.omit %>% ggplot() +
   aes(x = distlm, y = hma) +
@@ -304,26 +346,4 @@ dmnlsgrid1 <- profData$dimensionless %>% na.omit %>% ggplot() +
 dmnlsgrid1
 ```
 
-<img src="img/unnamed-chunk-9-1.png" width="100%" />
-
-``` r
-
-dmnlsgridrawd1 <- profData$dimensionlessrawdistance %>% na.omit %>% ggplot() +
-  aes(x = dist, y = hma) +
-  geom_line(col = 'red', lwd = 1) +
-  scale_x_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
-  scale_y_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
-  geom_text(
-    data = profData$concavityindexrawdistance, aes(x = 0.1, y = 0.1, label = paste0('C[a]==', round(ci,2))),
-    size = 3,
-    hjust = 0,
-    parse = T
-  ) +
-  coord_equal() +
-  facet_wrap(~transect, nrow = 2) +
-  theme_bw() + 
-  theme(text = element_text(size = 12))
-dmnlsgridrawd1
-```
-
-<img src="img/unnamed-chunk-9-2.png" width="100%" />
+<img src="img/unnamed-chunk-10-1.png" width="100%" />

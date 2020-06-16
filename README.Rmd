@@ -16,6 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+BeachProfile is a set of R tools that enable users to extract beach profiles from selected transects and a digital surface model. The tools generate elevation profile graphs showing the slope, a table of associated data, as well as profile concavity calculations. Eventually these tools, along with those of the [RCoastSat repo](https://github.com/geofis/RCoastSat) for analysis of time-series of shoreline extracted with [CoastSat](https://github.com/kvos/CoastSat) (an open-source software toolkit written in Python by @kvos), will end up in an \texttt{R} package.
+
+Here I show how to generate topographic profiles of Najayo Beach, located in the south-central coast of the Dominican Republic. The input data include a 10-cm resolution digital surface model (DSM) generated from an aerial survey and processed with OpenDroneMap, as well as a set of transects previously digitized in QGIS (see \ref{transectsqgis})
+
+![Orthophoto and transects as shown in QGIS\label{transectsqgis}](img/transects-qgis.jpg)
+
+This repo, the field work and the data collected, are part of assignment projects for the Geomorphology course (Geography Degree), Universidad Autónoma de Santo Domingo. More details in this [video](https://www.youtube.com/watch?v=k6j5pVxvfN0) (in Spanish).
+
 ## Packages
 
 ```{r, warning=F, message=F}
@@ -40,10 +48,7 @@ map(funs, source)
 # transprof <- rtrans('data/transect-profiles.geojson')
 transprof <- rtrans('data/transect-profiles-short.geojson')
 rawDsm <- raster('data/raw-dsm.tif')
-dsm <- thresholdRaise(
-  rasterDsm = rawDsm, threshold = -28.9,
-  outRasterPath = 'out/cleaned-raised-dsm.tif',
-  overwrite=T)
+dsm <- thresholdRaise(rasterDsm = rawDsm, threshold = -28.9)
 plot(dsm)
 plot(as_Spatial(transprof), add=T)
 
@@ -70,7 +75,7 @@ profData
 
 ### Dimensionsional profiles
 
-#### The profile stretches exactly up to the actual digitized extension
+#### Profiles match their actual digitized extension
 
 ```{r}
 #Raw distance
@@ -109,7 +114,7 @@ dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal() #Not so informativ
 dmngridrawd + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
 ```
 
-#### Extending the profile to a conventionally chosen zero using linear regression
+#### Profiles extended to a conventionally chosen zero using linear regression
 
 ```{r}
 #Not comparable scales, neither between x and y nor across panels
@@ -151,6 +156,29 @@ dmngrid + facet_wrap(~transect, nrow = 7) + coord_equal(ratio = 2)
 
 ### Dimensionless, profile concavity indices
 
+#### Profiles match their actual digitized extension
+
+```{r}
+dmnlsgridrawd1 <- profData$dimensionlessrawdistance %>% na.omit %>% ggplot() +
+  aes(x = dist, y = hma) +
+  geom_line(col = 'red', lwd = 1) +
+  scale_x_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  scale_y_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
+  geom_text(
+    data = profData$concavityindexrawdistance, aes(x = 0.1, y = 0.1, label = paste0('C[a]==', round(ci,2))),
+    size = 3,
+    hjust = 0,
+    parse = T
+  ) +
+  coord_equal() +
+  facet_wrap(~transect, nrow = 2) +
+  theme_bw() + 
+  theme(text = element_text(size = 12))
+dmnlsgridrawd1
+```
+
+#### Profiles extended to a conventionally chosen zero using linear regression
+
 ```{r}
 dmnlsgrid1 <- profData$dimensionless %>% na.omit %>% ggplot() +
   aes(x = distlm, y = hma) +
@@ -168,22 +196,5 @@ dmnlsgrid1 <- profData$dimensionless %>% na.omit %>% ggplot() +
   theme_bw() + 
   theme(text = element_text(size = 12))
 dmnlsgrid1
-
-dmnlsgridrawd1 <- profData$dimensionlessrawdistance %>% na.omit %>% ggplot() +
-  aes(x = dist, y = hma) +
-  geom_line(col = 'red', lwd = 1) +
-  scale_x_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
-  scale_y_continuous(breaks = pretty_breaks(), limits = c(0,1)) +
-  geom_text(
-    data = profData$concavityindexrawdistance, aes(x = 0.1, y = 0.1, label = paste0('C[a]==', round(ci,2))),
-    size = 3,
-    hjust = 0,
-    parse = T
-  ) +
-  coord_equal() +
-  facet_wrap(~transect, nrow = 2) +
-  theme_bw() + 
-  theme(text = element_text(size = 12))
-dmnlsgridrawd1
 ```
 
