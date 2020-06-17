@@ -16,9 +16,10 @@ Here I show how to generate seven topographic profiles of Najayo Beach,
 located in the south-central coast of the Dominican Republic. The input
 data include a 10-cm resolution digital surface model (DSM) generated
 from an aerial survey processed with OpenDroneMap and GRASS GIS, as well
-as a set of transects previously digitized in QGIS (see )
+as a set of transects previously digitized in QGIS.
 
-![Orthophoto and transects as shown in QGIS](img/transects-qgis.jpg)
+![Orthophoto and transects (yellow) as shown in
+QGIS](img/transects-qgis.jpg)
 
 This repo, the field work and the data collected, are part of assignment
 projects for the Geomorphology course (Geography Degree), Autonomous
