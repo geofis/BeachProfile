@@ -10,7 +10,7 @@ profiles <- function(transects = transprof, height = dsm, pointsPerPixel= 1, mov
   library(units)
   index <- transects %>% pull(transect)
   ldmn <- map(index, function(x) {
-    l <- transects %>% filter(grepl(x, transect)) %>% st_cast('LINESTRING', warn = F)
+    l <- transects %>% filter(transect == x) %>% st_cast('LINESTRING', warn = F)
     p <- st_line_sample(l, density = pointsPerPixel/res(height)[1]) %>% st_cast('POINT', warn = F)
     ref <- p[1]
     d <- st_distance(p, ref) %>% as.vector()
