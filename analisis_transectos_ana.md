@@ -19,7 +19,7 @@ from an aerial survey processed with OpenDroneMap and GRASS GIS, as well
 as a set of transects previously digitized in QGIS.
 
 ![Orthophoto and transects (yellow) as shown in
-QGIS](img/transects-qgis.jpg)
+QGIS](img/transects-qgis-ana.jpg)
 
 This repo, the field work and the data collected, are part of assignment
 projects for the Geomorphology course (Geography Degree), Autonomous
