@@ -12,11 +12,12 @@ analysis of time-series of shoreline extracted with
 [CoastSat](https://github.com/kvos/CoastSat) (an open-source software
 toolkit written in Python by @kvos), will be part of an R package.
 
-Here I show how to generate seven topographic profiles of Najayo Beach,
-located in the south-central coast of the Dominican Republic. The input
-data include a 10-cm resolution digital surface model (DSM) generated
-from an aerial survey processed with OpenDroneMap and GRASS GIS, as well
-as a set of transects previously digitized in QGIS.
+Here I show how to generate 48 topographic profiles of Najayo Beach
+(Carlos Pinto sector), located in the south-central coast of the
+Dominican Republic. The input data include a 10-cm resolution digital
+surface model (DSM) generated from an aerial survey processed with
+OpenDroneMap and GRASS GIS, as well as a set of transects previously
+digitized in QGIS.
 
 ![Orthophoto and transects (yellow) as shown in
 QGIS](img/transects-qgis-ana.jpg)
