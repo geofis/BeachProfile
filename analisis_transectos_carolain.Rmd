@@ -20,7 +20,7 @@ BeachProfile is a set of R tools that enable users to extract beach profiles fro
 
 Here I show how to generate 20 topographic profiles of Najayo Beach (Los Pescadores sector), located in the south-central coast of the Dominican Republic. The input data include a 10-cm resolution digital surface model (DSM) generated from an aerial survey processed with OpenDroneMap and GRASS GIS, as well as a set of transects previously digitized in QGIS.
 
-![Orthophoto and transects (yellow) as shown in QGIS](img/transects-qgis-ana.jpg)
+![Orthophoto and transects (yellow) as shown in QGIS](img/transects-qgis-carolaine.jpg)
 
 This repo, the field work and the data collected, are part of assignment projects for the Geomorphology course (Geography Degree), Autonomous University of Santo Domingo. More details in this [video](https://www.youtube.com/watch?v=k6j5pVxvfN0) (in Spanish).
 
