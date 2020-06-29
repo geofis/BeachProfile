@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"name": "transectos_ortofotos",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32619" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 4 }, "geometry": { "type": "LineString", "coordinates": [ [ 383656.03475728968624, 2024320.322610120754689 ], [ 383656.243925204442348, 2024316.791003473568708 ] ] } },
+{ "type": "Feature", "properties": { "id": 5 }, "geometry": { "type": "LineString", "coordinates": [ [ 383645.93883573130006, 2024319.073367301840335 ], [ 383646.35392655240139, 2024315.022593118483201 ] ] } },
+{ "type": "Feature", "properties": { "id": 6 }, "geometry": { "type": "LineString", "coordinates": [ [ 383636.148851189820562, 2024317.5436822171323 ], [ 383636.660417939710896, 2024313.84365288191475 ] ] } },
+{ "type": "Feature", "properties": { "id": 7 }, "geometry": { "type": "LineString", "coordinates": [ [ 383625.507731981284451, 2024316.421195033239201 ], [ 383626.583985120349098, 2024311.193679786054417 ] ] } },
+{ "type": "Feature", "properties": { "id": 8 }, "geometry": { "type": "LineString", "coordinates": [ [ 383614.631280999688897, 2024314.790249064797536 ], [ 383615.840672535472549, 2024308.40695290802978 ] ] } },
+{ "type": "Feature", "properties": { "id": 9 }, "geometry": { "type": "LineString", "coordinates": [ [ 383602.903695351036731, 2024312.648689946392551 ], [ 383603.8481375570409, 2024306.408197078388184 ] ] } },
+{ "type": "Feature", "properties": { "id": 10 }, "geometry": { "type": "LineString", "coordinates": [ [ 383590.921368459414225, 2024310.80996539327316 ], [ 383592.391195500269532, 2024304.298289782134816 ] ] } },
+{ "type": "Feature", "properties": { "id": 11 }, "geometry": { "type": "LineString", "coordinates": [ [ 383578.777572953433264, 2024307.832989441929385 ], [ 383579.829230249277316, 2024301.513308099238202 ] ] } },
+{ "type": "Feature", "properties": { "id": 12 }, "geometry": { "type": "LineString", "coordinates": [ [ 383567.481994590605609, 2024305.447285391157493 ], [ 383569.156856209912803, 2024298.514137292513624 ] ] } },
+{ "type": "Feature", "properties": { "id": 13 }, "geometry": { "type": "LineString", "coordinates": [ [ 383553.667233554879203, 2024301.448756133904681 ], [ 383555.931626402481925, 2024294.539454880636185 ] ] } },
+{ "type": "Feature", "properties": { "id": 14 }, "geometry": { "type": "LineString", "coordinates": [ [ 383543.795395034656394, 2024298.506711981724948 ], [ 383545.522977353131864, 2024292.995967191644013 ] ] } },
+{ "type": "Feature", "properties": { "id": 15 }, "geometry": { "type": "LineString", "coordinates": [ [ 383528.967877028393559, 2024291.890515718609095 ], [ 383531.792618033010513, 2024286.265711783897132 ] ] } },
+{ "type": "Feature", "properties": { "id": 16 }, "geometry": { "type": "LineString", "coordinates": [ [ 383515.782199373003095, 2024286.831809995928779 ], [ 383520.078739648044575, 2024279.574140612501651 ] ] } },
+{ "type": "Feature", "properties": { "id": 17 }, "geometry": { "type": "LineString", "coordinates": [ [ 383503.768578288960271, 2024280.722035866230726 ], [ 383508.814836764766369, 2024272.142287163762376 ] ] } },
+{ "type": "Feature", "properties": { "id": 18 }, "geometry": { "type": "LineString", "coordinates": [ [ 383493.907583851134405, 2024273.869612477021292 ], [ 383498.27865616598865, 2024267.421117992606014 ] ] } },
+{ "type": "Feature", "properties": { "id": 19 }, "geometry": { "type": "LineString", "coordinates": [ [ 383482.801688322157133, 2024267.402363449102268 ], [ 383488.281297924404498, 2024261.240620820550248 ] ] } },
+{ "type": "Feature", "properties": { "id": 20 }, "geometry": { "type": "LineString", "coordinates": [ [ 383472.686982241808437, 2024259.218243391485885 ], [ 383477.163339391583577, 2024254.113292686874047 ] ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "LineString", "coordinates": [ [ 383452.861259963479824, 2024242.10858072922565 ], [ 383457.336334946390707, 2024237.167352102231234 ] ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "LineString", "coordinates": [ [ 383461.694871518295258, 2024249.963269631611183 ], [ 383467.009023060440086, 2024243.716810801299289 ] ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "LineString", "coordinates": [ [ 383443.444956353690941, 2024234.556891695596278 ], [ 383447.826800607726909, 2024229.988585983868688 ] ] } }
+]
+}

@@ -1,5 +1,5 @@
 ---
-title: "BeachProfile, Ana's transects"
+title: "BeachProfile, Carolaine's transects"
 output: github_document
 editor_options: 
   chunk_output_type: console
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 BeachProfile is a set of R tools that enable users to extract beach profiles from a digital surface model. The tools generate elevation profile graphs showing the slope, a table of associated data, as well as profile concavity calculations. Hopefully, these tools, along with those of the [RCoastSat repo](https://github.com/geofis/RCoastSat) for analysis of time-series of shoreline extracted with [CoastSat](https://github.com/kvos/CoastSat) (an open-source software toolkit written in Python by @kvos), will be part of an R package.
 
-Here I show how to generate 48 topographic profiles of Najayo Beach (Carlos Pinto sector), located in the south-central coast of the Dominican Republic. The input data include a 10-cm resolution digital surface model (DSM) generated from an aerial survey processed with OpenDroneMap and GRASS GIS, as well as a set of transects previously digitized in QGIS.
+Here I show how to generate 20 topographic profiles of Najayo Beach (Los Pescadores sector), located in the south-central coast of the Dominican Republic. The input data include a 10-cm resolution digital surface model (DSM) generated from an aerial survey processed with OpenDroneMap and GRASS GIS, as well as a set of transects previously digitized in QGIS.
 
 ![Orthophoto and transects (yellow) as shown in QGIS](img/transects-qgis-ana.jpg)
 
@@ -44,10 +44,10 @@ map(funs, source)
 
 ## Import/plot transects and shorelines
 
-```{r ana-transects}
-transprof <- rtrans('data/perfil_carlos_pinto.geojson')#Digitized by Ana, edited by geofis
-rawDsm <- raster('data/raw-dsm.tif')
-dsm <- thresholdRaise(rasterDsm = rawDsm, threshold = -29)
+```{r carolain-transect}
+transprof <- rtrans('data/perfil_los_pescadores.geojson')#Digitized by Carolain, edited by geofis
+rawDsm <- raster('data/raw-dsm-pescadores.tif')
+dsm <- thresholdRaise(rasterDsm = rawDsm, threshold = -44.1)
 plot(dsm)
 plot(as_Spatial(transprof), add=T)
 
@@ -79,8 +79,8 @@ profData <- lapply(profData_temp, function(x)
   x %>% mutate(
     transect2 = as.numeric(as.character(transect)),
     group = cut(transect2,
-                breaks = c(0, 10, 20, 30, 40, 50),
-                labels = c('1-10', '11-20', '21-30', '31-40', '41-48')),
+                breaks = c(0, 5, 10, 15, 20),
+                labels = c('1-5', '6-10', '11-15', '16-20')),
   transect = forcats::fct_relevel(
     transect, function(x){as.character(sort(as.integer(x)))})
   )
@@ -95,7 +95,7 @@ profData <- lapply(profData_temp, function(x)
 
 ##### xy scales different, scale non-consistent across panels
 
-```{r ana-raw-distance-diff-scales-xy-and-panels}
+```{r carolain-raw-distance-diff-scales-xy-and-panels}
 #Raw distance
 dmngridrawd <- sapply(as.character(unique(profData$dimension$group)), function(x) {
   profData$dimension %>% filter(group==x) %>% drop_units %>% droplevels %>%
@@ -125,7 +125,7 @@ invisible(sapply(
 
 ##### xy scales different, scale consistent across panels of the same plot
 
-```{r ana-raw-distance-diff-scales-xy-same-across-panels}
+```{r carolain-raw-distance-diff-scales-xy-same-across-panels}
 invisible(sapply(
   names(dmngridrawd),
   function(x) {
@@ -141,7 +141,7 @@ invisible(sapply(
 
 ##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
 
-```{r ana-raw-distance-same-scale-xy-same-across-panels}
+```{r carolain-raw-distance-same-scale-xy-same-across-panels}
 #Equal xy scales, no vertical exaggeration
 invisible(sapply(
   names(dmngridrawd),
@@ -154,7 +154,7 @@ invisible(sapply(
 
 ##### Vertical exaggeration 2x, scale consistent across panels of the same plot
 
-```{r ana-raw-distance-vert-exag-2x-same-across-panels}
+```{r carolain-raw-distance-vert-exag-2x-same-across-panels}
 invisible(sapply(
   names(dmngridrawd),
   function(x) {
@@ -168,7 +168,7 @@ invisible(sapply(
 
 ##### xy scales different, scale non-consistent across panels
 
-```{r ana-extended-distance-diff-scales-xy-and-panels}
+```{r carolain-extended-distance-diff-scales-xy-and-panels}
 dmngrid <- sapply(as.character(unique(profData$dimension$group)), function(x) {
   profData$dimension %>% filter(group==x) %>% drop_units %>% ggplot() +
     aes(x = distlm, y = hma) +
@@ -199,7 +199,7 @@ invisible(sapply(
 
 ##### xy scales different, scale consistent across panels of the same plot
 
-```{r ana-extended-distance-diff-scales-xy-same-across-panels}
+```{r carolain-extended-distance-diff-scales-xy-same-across-panels}
 invisible(sapply(
   names(dmngrid),
   function(x) {
@@ -215,7 +215,7 @@ invisible(sapply(
 
 ##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
 
-```{r ana-extended-distance-same-scale-xy-same-across-panels}
+```{r carolain-extended-distance-same-scale-xy-same-across-panels}
 invisible(sapply(
   names(dmngrid),
   function(x) {
@@ -230,7 +230,7 @@ invisible(sapply(
 ```
 ##### Vertical exaggeration 2x, scale consistent across panels of the same plot
 
-```{r ana-extended-distance-vert-exag-2x-same-across-panels}
+```{r carolain-extended-distance-vert-exag-2x-same-across-panels}
 invisible(sapply(
   names(dmngrid),
   function(x) {
@@ -244,7 +244,7 @@ invisible(sapply(
 
 #### Profiles match their actual digitized extension
 
-```{r ana-dimensionless-raw-distance-profile-concavity}
+```{r carolain-dimensionless-raw-distance-profile-concavity}
 dmnlsgridrawd1 <- sapply(
   as.character(unique(profData$dimensionlessrawdistance$group)), function(x) {
     profData$dimensionlessrawdistance %>% filter(group == x) %>% na.omit %>% ggplot() +
@@ -273,7 +273,7 @@ invisible(sapply(
 
 #### Profiles extended to a conventionally chosen zero using linear regression
 
-```{r ana-dimensionless-extended-distance-profile-concavity}
+```{r carolain-dimensionless-extended-distance-profile-concavity}
 dmnlsgrid1 <- sapply(
   as.character(unique(profData$dimensionless$group)), function(x) {
     profData$dimensionless %>% filter(group == x) %>% na.omit %>% ggplot() +

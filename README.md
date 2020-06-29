@@ -24,7 +24,11 @@ QGIS](img/transects-qgis.jpg)
 This repo, the field work and the data collected, are part of assignment
 projects for the Geomorphology course (Geography Degree), Autonomous
 University of Santo Domingo. More details in this
-[video](https://www.youtube.com/watch?v=k6j5pVxvfN0) (in Spanish).
+[video](https://www.youtube.com/watch?v=k6j5pVxvfN0) (in Spanish). Two
+applications Two applications can be consulted in the links below:
+
+  - [Ana’s transects](analisis_transectos_ana.md)
+  - [Carolaine’s transects](analisis_transectos_carolain.md)
 
 ## Packages
 
