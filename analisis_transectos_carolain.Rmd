@@ -123,7 +123,7 @@ invisible(sapply(
 ))
 ```
 
-##### xy scales different, scale consistent across panels of the same plot
+##### xy scales different, scale consistent across panels
 
 ```{r carolain-raw-distance-diff-scales-xy-same-across-panels}
 invisible(sapply(
@@ -133,32 +133,42 @@ invisible(sapply(
       stat_smooth(
         aes(x = dist, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +
       facet_wrap(~transect, nrow = 2)
     print(p)
   }
 ))
 ```
 
-##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
+##### xy scales equal (no vertical exaggeration), scale consistent across panels
 
 ```{r carolain-raw-distance-same-scale-xy-same-across-panels}
 #Equal xy scales, no vertical exaggeration
 invisible(sapply(
   names(dmngridrawd),
   function(x) {
-    p <- dmngridrawd[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal() #Not so informative but panels are comparable between each other
+    p <- dmngridrawd[[x]] +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal() #Not so informative but panels are comparable between each other
     print(p)
   }
 ))
 ```
 
-##### Vertical exaggeration 2x, scale consistent across panels of the same plot
+##### Vertical exaggeration 2x, scale consistent across panels
 
 ```{r carolain-raw-distance-vert-exag-2x-same-across-panels}
 invisible(sapply(
   names(dmngridrawd),
   function(x) {
-    p <- dmngridrawd[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal(ratio = 2) #Not so informative but panels are comparable
+    p <- dmngridrawd[[x]] +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal(ratio = 2) #Not so informative but panels are comparable
     print(p)
   }
 ))
@@ -197,7 +207,7 @@ invisible(sapply(
 ))
 ```
 
-##### xy scales different, scale consistent across panels of the same plot
+##### xy scales different, scale consistent across panels
 
 ```{r carolain-extended-distance-diff-scales-xy-same-across-panels}
 invisible(sapply(
@@ -207,13 +217,15 @@ invisible(sapply(
       stat_smooth(
         aes(x = distlm, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
       facet_wrap(~transect, nrow = 2) 
     print(p)
   }
 ))
 ```
 
-##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
+##### xy scales equal (no vertical exaggeration), scale consistent across panels
 
 ```{r carolain-extended-distance-same-scale-xy-same-across-panels}
 invisible(sapply(
@@ -223,18 +235,24 @@ invisible(sapply(
       stat_smooth(
         aes(x = distlm, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
       facet_wrap(~transect, nrow = 5) + coord_equal()
     print(p)
   }
 ))
 ```
-##### Vertical exaggeration 2x, scale consistent across panels of the same plot
+##### Vertical exaggeration 2x, scale consistent across panels
 
 ```{r carolain-extended-distance-vert-exag-2x-same-across-panels}
 invisible(sapply(
   names(dmngrid),
   function(x) {
-    p <- dmngrid[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal(ratio = 2) #Not so informative but panels are comparable
+    p <- dmngrid[[x]] +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal(ratio = 2) #Not so informative but panels are comparable
     print(p)
   }
 ))

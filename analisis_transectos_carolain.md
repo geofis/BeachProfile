@@ -283,7 +283,7 @@ invisible(sapply(
 
 <img src="img/carolain-raw-distance-diff-scales-xy-and-panels-1.png" width="100%" /><img src="img/carolain-raw-distance-diff-scales-xy-and-panels-2.png" width="100%" /><img src="img/carolain-raw-distance-diff-scales-xy-and-panels-3.png" width="100%" /><img src="img/carolain-raw-distance-diff-scales-xy-and-panels-4.png" width="100%" />
 
-##### xy scales different, scale consistent across panels of the same plot
+##### xy scales different, scale consistent across panels
 
 ``` r
 invisible(sapply(
@@ -293,42 +293,122 @@ invisible(sapply(
       stat_smooth(
         aes(x = dist, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +
       facet_wrap(~transect, nrow = 2)
     print(p)
   }
 ))
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
 ```
 
-<img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-1.png" width="100%" /><img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-2.png" width="100%" /><img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-3.png" width="100%" /><img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-4.png" width="100%" />
+<img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-1.png" width="100%" />
 
-##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-2.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-3.png" width="100%" />
+
+    ## Warning in qt((1 - level)/2, df): NaNs produced
+
+<img src="img/carolain-raw-distance-diff-scales-xy-same-across-panels-4.png" width="100%" />
+
+##### xy scales equal (no vertical exaggeration), scale consistent across panels
 
 ``` r
 #Equal xy scales, no vertical exaggeration
 invisible(sapply(
   names(dmngridrawd),
   function(x) {
-    p <- dmngridrawd[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal() #Not so informative but panels are comparable between each other
+    p <- dmngridrawd[[x]] +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal() #Not so informative but panels are comparable between each other
     print(p)
   }
 ))
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
 ```
 
-<img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-1.png" width="100%" /><img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-2.png" width="100%" /><img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-3.png" width="100%" /><img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-4.png" width="100%" />
+<img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-1.png" width="100%" />
 
-##### Vertical exaggeration 2x, scale consistent across panels of the same plot
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-2.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-3.png" width="100%" /><img src="img/carolain-raw-distance-same-scale-xy-same-across-panels-4.png" width="100%" />
+
+##### Vertical exaggeration 2x, scale consistent across panels
 
 ``` r
 invisible(sapply(
   names(dmngridrawd),
   function(x) {
-    p <- dmngridrawd[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal(ratio = 2) #Not so informative but panels are comparable
+    p <- dmngridrawd[[x]] +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal(ratio = 2) #Not so informative but panels are comparable
     print(p)
   }
 ))
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
 ```
 
-<img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-1.png" width="100%" /><img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-2.png" width="100%" /><img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-3.png" width="100%" /><img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-4.png" width="100%" />
+<img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-1.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-2.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-3.png" width="100%" /><img src="img/carolain-raw-distance-vert-exag-2x-same-across-panels-4.png" width="100%" />
 
 #### Profiles extended to a conventionally chosen zero using linear regression
 
@@ -365,7 +445,7 @@ invisible(sapply(
 
 <img src="img/carolain-extended-distance-diff-scales-xy-and-panels-1.png" width="100%" /><img src="img/carolain-extended-distance-diff-scales-xy-and-panels-2.png" width="100%" /><img src="img/carolain-extended-distance-diff-scales-xy-and-panels-3.png" width="100%" /><img src="img/carolain-extended-distance-diff-scales-xy-and-panels-4.png" width="100%" />
 
-##### xy scales different, scale consistent across panels of the same plot
+##### xy scales different, scale consistent across panels
 
 ``` r
 invisible(sapply(
@@ -375,15 +455,43 @@ invisible(sapply(
       stat_smooth(
         aes(x = distlm, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
       facet_wrap(~transect, nrow = 2) 
     print(p)
   }
 ))
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
 ```
 
-<img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-1.png" width="100%" /><img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-2.png" width="100%" /><img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-3.png" width="100%" /><img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-4.png" width="100%" />
+<img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-1.png" width="100%" />
 
-##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-2.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-3.png" width="100%" />
+
+    ## Warning in qt((1 - level)/2, df): NaNs produced
+
+<img src="img/carolain-extended-distance-diff-scales-xy-same-across-panels-4.png" width="100%" />
+
+##### xy scales equal (no vertical exaggeration), scale consistent across panels
 
 ``` r
 invisible(sapply(
@@ -393,27 +501,80 @@ invisible(sapply(
       stat_smooth(
         aes(x = distlm, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
       facet_wrap(~transect, nrow = 5) + coord_equal()
     print(p)
   }
 ))
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
 ```
 
-<img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-1.png" width="100%" /><img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-2.png" width="100%" /><img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-3.png" width="100%" /><img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-4.png" width="100%" />
-\#\#\#\#\# Vertical exaggeration 2x, scale consistent across panels of
-the same plot
+<img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-1.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-2.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-3.png" width="100%" />
+
+    ## Warning in qt((1 - level)/2, df): NaNs produced
+
+<img src="img/carolain-extended-distance-same-scale-xy-same-across-panels-4.png" width="100%" />
+\#\#\#\#\# Vertical exaggeration 2x, scale consistent across panels
 
 ``` r
 invisible(sapply(
   names(dmngrid),
   function(x) {
-    p <- dmngrid[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal(ratio = 2) #Not so informative but panels are comparable
+    p <- dmngrid[[x]] +
+      scale_x_continuous(limits = c(0,13)) +
+      scale_y_continuous(limits = c(0,2.5)) +      
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal(ratio = 2) #Not so informative but panels are comparable
     print(p)
   }
 ))
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
+## Scale for 'x' is already present. Adding another scale for 'x', which
+## will replace the existing scale.
+## Scale for 'y' is already present. Adding another scale for 'y', which
+## will replace the existing scale.
 ```
 
-<img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-1.png" width="100%" /><img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-2.png" width="100%" /><img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-3.png" width="100%" /><img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-4.png" width="100%" />
+<img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-1.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-2.png" width="100%" />
+
+    ## Scale for 'x' is already present. Adding another scale for 'x', which
+    ## will replace the existing scale.
+    ## Scale for 'y' is already present. Adding another scale for 'y', which
+    ## will replace the existing scale.
+
+<img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-3.png" width="100%" /><img src="img/carolain-extended-distance-vert-exag-2x-same-across-panels-4.png" width="100%" />
 
 ### Dimensionless, profile concavity indices
 

@@ -108,7 +108,7 @@ dmngridrawd <- sapply(as.character(unique(profData$dimension$group)), function(x
       ylab('Height, moving average (m)') + xlab('Raw distance, landward origin (m)') +
       geom_text(
         data = profData$slope %>% filter(group==x) %>% drop_units %>% droplevels,
-        aes(x = 0, y = 0, label = paste0('m=', round(sloperawdDeg,2), '°')),
+        aes(x = 0.05, y = 0.05, label = paste0('m=', round(sloperawdDeg,2), '°')),
         size = 3,
         hjust = 0,
         parse = F
@@ -123,45 +123,55 @@ invisible(sapply(
 ))
 ```
 
-##### xy scales different, scale consistent across panels of the same plot
+##### xy scales different, scale consistent across panels
 
 ```{r ana-raw-distance-diff-scales-xy-same-across-panels}
-invisible(sapply(
+suppressMessages(invisible(sapply(
   names(dmngridrawd),
   function(x) {
     p <- dmngridrawd[[x]] +
       stat_smooth(
         aes(x = dist, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
+      scale_x_continuous(limits = c(0,3.5)) +
+      scale_y_continuous(limits = c(0,0.6)) +
       facet_wrap(~transect, nrow = 2)
     print(p)
   }
-))
+)))
 ```
 
-##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
+##### xy scales equal (no vertical exaggeration), scale consistent across panels
 
 ```{r ana-raw-distance-same-scale-xy-same-across-panels}
 #Equal xy scales, no vertical exaggeration
-invisible(sapply(
+suppressMessages(invisible(sapply(
   names(dmngridrawd),
   function(x) {
-    p <- dmngridrawd[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal() #Not so informative but panels are comparable between each other
+    p <- dmngridrawd[[x]] +
+      scale_x_continuous(limits = c(0,3.5)) +
+      scale_y_continuous(limits = c(0,0.6)) +
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal() #Not so informative but panels are comparable between each other
     print(p)
   }
-))
+)))
 ```
 
-##### Vertical exaggeration 2x, scale consistent across panels of the same plot
+##### Vertical exaggeration 2x, scale consistent across panels
 
 ```{r ana-raw-distance-vert-exag-2x-same-across-panels}
-invisible(sapply(
+suppressMessages(invisible(sapply(
   names(dmngridrawd),
   function(x) {
-    p <- dmngridrawd[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal(ratio = 2) #Not so informative but panels are comparable
+    p <- dmngridrawd[[x]] +
+      scale_x_continuous(limits = c(0,3.5)) +
+      scale_y_continuous(limits = c(0,0.6)) +
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal(ratio = 2) #Not so informative but panels are comparable
     print(p)
   }
-))
+)))
 ```
 
 #### Profiles extended to a conventionally chosen zero using linear regression
@@ -179,7 +189,7 @@ dmngrid <- sapply(as.character(unique(profData$dimension$group)), function(x) {
     ylab('Height, moving average (m)') + xlab('Distance, landward origin (m)') +
     geom_text(
       data = profData$slope %>% filter(group==x) %>% drop_units,
-      aes(x = 0, y = 0, label = paste0('m=', round(slopeDeg,2), '°')),
+      aes(x = 0.05, y = 0.05, label = paste0('m=', round(slopeDeg,2), '°')),
       size = 3,
       hjust = 0,
       parse = F
@@ -189,55 +199,63 @@ dmngrid <- sapply(as.character(unique(profData$dimension$group)), function(x) {
     theme(text = element_text(size = 8))
 }, simplify = F, USE.NAMES = T)
 
-invisible(sapply(
+suppressMessages(invisible(sapply(
   names(dmngrid),
   function(x) {
     print(dmngrid[[x]])
   }
-))
+)))
 ```
 
 ##### xy scales different, scale consistent across panels of the same plot
 
 ```{r ana-extended-distance-diff-scales-xy-same-across-panels}
-invisible(sapply(
+suppressMessages(invisible(sapply(
   names(dmngrid),
   function(x) {
     p <- dmngrid[[x]] +
+      scale_x_continuous(limits = c(0,3.5)) +
+      scale_y_continuous(limits = c(0,0.6)) +
       stat_smooth(
         aes(x = distlm, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
       facet_wrap(~transect, nrow = 2) 
     print(p)
   }
-))
+)))
 ```
 
 ##### xy scales equal (no vertical exaggeration), scale consistent across panels of the same plot
 
 ```{r ana-extended-distance-same-scale-xy-same-across-panels}
-invisible(sapply(
+suppressMessages(invisible(sapply(
   names(dmngrid),
   function(x) {
     p <- dmngrid[[x]] +
+      scale_x_continuous(limits = c(0,3.5)) +
+      scale_y_continuous(limits = c(0,0.6)) +
       stat_smooth(
         aes(x = distlm, y = hma), geom = 'line', color = 'black',
         alpha = 0.5, formula = y~x, method = 'lm', na.rm = T) +
       facet_wrap(~transect, nrow = 5) + coord_equal()
     print(p)
   }
-))
+)))
 ```
 ##### Vertical exaggeration 2x, scale consistent across panels of the same plot
 
 ```{r ana-extended-distance-vert-exag-2x-same-across-panels}
-invisible(sapply(
+suppressMessages(invisible(sapply(
   names(dmngrid),
   function(x) {
-    p <- dmngrid[[x]] + facet_wrap(~transect, nrow = 5) + coord_equal(ratio = 2) #Not so informative but panels are comparable
+    p <- dmngrid[[x]] +
+      scale_x_continuous(limits = c(0,3.5)) +
+      scale_y_continuous(limits = c(0,0.6)) +      
+      facet_wrap(~transect, nrow = 5) +
+      coord_equal(ratio = 2) #Not so informative but panels are comparable
     print(p)
   }
-))
+)))
 ```
 
 ### Dimensionless, profile concavity indices
